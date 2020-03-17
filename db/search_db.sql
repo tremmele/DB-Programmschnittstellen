@@ -45,8 +45,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`words_sites` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `site_id` INT NOT NULL,
   `words_id` INT NOT NULL,
-  PRIMARY KEY (`site_id`, `words_id`),
-  INDEX `fk_words_sites_words1_idx` (`words_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_words_sites_site`
     FOREIGN KEY (`site_id`)
     REFERENCES `mydb`.`site` (`id`)
