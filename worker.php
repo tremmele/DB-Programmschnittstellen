@@ -1,11 +1,11 @@
 <?php
-  include "crawl.php";
+  //include "crawl.php";
   
   $dbUrl = "127.0.0.1";
   $dbUser = "root";
   $dbPassword = "";
   $dbName = "mydb";
-
+  $crawlInterval = 1000;//86400;
 
   //while(true)
   //{
@@ -20,14 +20,23 @@
     $result = $mysqli->query("SELECT * FROM site");
     while ($row = $result->fetch_assoc()) 
     {
-        // Print every URL
-        echo "ID: " . $row['id'] . " URL: " . $row['link'] . "\n";
+      // Check last crawl  
+      $time = strtotime(date('Y-m-d H:i:s'));
+      $lastCheck = strtotime($row['time_stamp']);
+      if ($time - $lastCheck <= $crawlInterval)
+      {
+        echo $time - $lastCheck . "\n";
+        continue;
+      }
 
-        // Update timestamp
-        $timestamp = date('Y-m-d H:i:s');
-        $update_stmt = $mysqli->prepare("UPDATE site SET time_stamp = ? WHERE id = ?");
-        $update_stmt->bind_param('si', $timestamp, $row['id']);
-        $update_stmt->execute();
+      // Print every URL
+      echo "ID: " . $row['id'] . " URL: " . $row['link'] . "\n";
+
+      // Update timestamp
+      $timestamp = date('Y-m-d H:i:s');
+      $update_stmt = $mysqli->prepare("UPDATE site SET time_stamp = ? WHERE id = ?");
+      $update_stmt->bind_param('si', $timestamp, $row['id']);
+      $update_stmt->execute();
     }
 
   //}
