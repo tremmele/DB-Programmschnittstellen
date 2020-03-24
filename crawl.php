@@ -47,7 +47,12 @@
   startCrawler($url);
 
 function startCrawler($uri) {
-$dbUrl = "127.0.0.1";
+
+
+$crawl = new Crawler($uri);
+
+foreach($crawl -> get("links") as $link) {
+  $dbUrl = "127.0.0.1";
 $dbUser = "root";
 $dbPassword = "";
 $dbName = "mydb";
@@ -59,10 +64,6 @@ $dbName = "mydb";
   {
       echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
-
-$crawl = new Crawler($uri);
-
-foreach($crawl -> get("links") as $link) {
   
   $timestamp = date('Y-m-d H:i:s');
   $result = $mysqli->query("SELECT * FROM site WHERE link = \"$link\"");
@@ -72,10 +73,15 @@ foreach($crawl -> get("links") as $link) {
   $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?,?)");
   $insert_stmt->bind_param('ss', $link, $timestamp);
   $insert_stmt->execute();
+  $mysqli->close();
+
   startCrawler($link);
   }
+  else {
+  $mysqli->close();
+  }
 }
-$mysqli->close();
+
 
 }
 ?>
