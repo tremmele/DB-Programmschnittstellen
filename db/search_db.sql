@@ -23,7 +23,7 @@ USE `mydb` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`site` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `link` VARCHAR(255) NULL,
-  `time_stamp` VARCHAR(45) NULL,
+  `time_stamp` DATETIME NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
