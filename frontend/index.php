@@ -36,9 +36,8 @@
         // Print search results  
         if(isset($_POST['searchQuery']))
         {
-            // Add URL
+            echo "Suchanfrage: " . $_POST['searchQuery'] . "<br>";
             search($_POST['searchQuery']);
-            echo "Suchanfrage: " . $_POST['searchQuery'];
         }
     ?>
     </body>
