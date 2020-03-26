@@ -137,7 +137,7 @@ class Crawler
     $result = $mysqli->query("SELECT * FROM words_sites WHERE words_id = $word_id AND site_id = $site_id");
 
     if (is_null($result->fetch_assoc())) {
-      $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (word_id, site_id) VALUES (?,?)");
+      $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (words_id, site_id) VALUES (?,?)");
       $insert_stmt->bind_param('ii', $word_id, $site_id);
       $insert_stmt->execute();
       $mysqli->close();
@@ -145,6 +145,7 @@ class Crawler
     else {
       $mysqli->close();
     }
+    return;
   }
 
   function startCrawler($uri)
@@ -153,19 +154,6 @@ class Crawler
 
 
     $crawl = new Crawler($uri);
-
-
-
-    foreach ($crawl->get("links") as $link) {
-
-
-      ////resolve relative links to absolute
-      //if(substr( $link, 0, 4 ) !== "http") {
-      //  $link = $crawl->base . $link;
-      //}
-
-      insertLink($link);
-
       //get word from site
       $plaintext = "";
       foreach ($crawl->get("texts") as $text) {
@@ -179,6 +167,17 @@ class Crawler
         inserWord($word);
         connectWordSite($word, $crawl->base);
       }
+
+
+    foreach ($crawl->get("links") as $link) {
+
+
+      //resolve relative links to absolute
+      if(substr( $link, 0, 4 ) !== "http") {
+        $link = $crawl->base . $link;
+      }
+
+      insertLink($link);
 
       //start crawler recursivly
       #startCrawler($link);
