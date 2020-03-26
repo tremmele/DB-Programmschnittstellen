@@ -52,139 +52,127 @@ class Crawler
   }
 }
 ?>
-<html>
-
-<body>
-  <h2>Webcrawler</h2>
-  <?php
-
-  $url = 'http://www.heidenheim.dhbw.de';
-  startCrawler($url);
-
-  function insertLink($link)
-  {
-    $dbUrl = "127.0.0.1";
-    $dbUser = "root";
-    $dbPassword = "";
-    $dbName = "mydb";
-    $timestamp = date('Y-m-d H:i:s');
-    // Connect to DB
-    $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
-    if ($mysqli->connect_errno) {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
-
-    $timestamp = date('Y-m-d H:i:s');
-    $result = $mysqli->query("SELECT * FROM site WHERE link = \"$link\"");
-
-    //insert found URL to database
-    if (is_null($result->fetch_assoc())) {
-      $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?,?)");
-      $insert_stmt->bind_param('ss', $link, $timestamp);
-      $insert_stmt->execute();
-      $mysqli->close();
-    } else {
-      $mysqli->close();
-    }
-    return;
+<?php
+function insertLink($link)
+{
+  $dbUrl = "127.0.0.1";
+  $dbUser = "root";
+  $dbPassword = "";
+  $dbName = "mydb";
+  $timestamp = date('Y-m-d H:i:s');
+  // Connect to DB
+  $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
 
-  function inserWord($word)
-  {
-    $dbUrl = "127.0.0.1";
-    $dbUser = "root";
-    $dbPassword = "";
-    $dbName = "mydb";
+  $timestamp = date('Y-m-d H:i:s');
+  $result = $mysqli->query("SELECT * FROM site WHERE link = \"$link\"");
 
-    $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
-    if ($mysqli->connect_errno) {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
-    $result = $mysqli->query("SELECT * FROM words WHERE word = \"$word\"");
-    //insert found word to database
-    if (is_null($result->fetch_assoc())) {
-      //insert word to db
-      $insert_stmt = $mysqli->prepare("INSERT INTO words (word) VALUES (?)");
-      $insert_stmt->bind_param('s', $word);
-      $insert_stmt->execute();
-      $mysqli->close();
-    } else {
-      $mysqli->close();
-    }
- 
-    return;
+  //insert found URL to database
+  if (is_null($result->fetch_assoc())) {
+    $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?,?)");
+    $insert_stmt->bind_param('ss', $link, $timestamp);
+    $insert_stmt->execute();
+    $mysqli->close();
+  } else {
+    $mysqli->close();
+  }
+  return;
+}
 
+function inserWord($word)
+{
+  $dbUrl = "127.0.0.1";
+  $dbUser = "root";
+  $dbPassword = "";
+  $dbName = "mydb";
+
+  $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+  }
+  $result = $mysqli->query("SELECT * FROM words WHERE word = \"$word\"");
+  //insert found word to database
+  if (is_null($result->fetch_assoc())) {
+    //insert word to db
+    $insert_stmt = $mysqli->prepare("INSERT INTO words (word) VALUES (?)");
+    $insert_stmt->bind_param('s', $word);
+    $insert_stmt->execute();
+    $mysqli->close();
+  } else {
+    $mysqli->close();
   }
 
-  function connectWordSite($word, $link)
-  {
-    $dbUrl = "127.0.0.1";
-    $dbUser = "root";
-    $dbPassword = "";
-    $dbName = "mydb";
-    //get word and sideid
-    $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
-    if ($mysqli->connect_errno) {
-      echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }
+  return;
+}
 
-    $siteid = $mysqli->query("SELECT id FROM site WHERE link = \"$link\"");
-    $wordid = $mysqli->query("SELECT id FROM words WHERE word = \"$word\""); 
-    
-    $site_id =$siteid->fetch_assoc()['id'];
-    $word_id =$wordid->fetch_assoc()['id'];
-
-    $result = $mysqli->query("SELECT * FROM words_sites WHERE words_id = $word_id AND site_id = $site_id");
-
-    if (is_null($result->fetch_assoc())) {
-      $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (words_id, site_id) VALUES (?,?)");
-      $insert_stmt->bind_param('ii', $word_id, $site_id);
-      $insert_stmt->execute();
-      $mysqli->close();
-    }
-    else {
-      $mysqli->close();
-    }
-    return;
+function connectWordSite($word, $link)
+{
+  $dbUrl = "127.0.0.1";
+  $dbUser = "root";
+  $dbPassword = "";
+  $dbName = "mydb";
+  //get word and sideid
+  $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
   }
 
-  function startCrawler($uri)
-  {
-    insertLink($uri);
+  $siteid = $mysqli->query("SELECT id FROM site WHERE link = \"$link\"");
+  $wordid = $mysqli->query("SELECT id FROM words WHERE word = \"$word\"");
+
+  $site_id = $siteid->fetch_assoc()['id'];
+  $word_id = $wordid->fetch_assoc()['id'];
+
+  $result = $mysqli->query("SELECT * FROM words_sites WHERE words_id = $word_id AND site_id = $site_id");
+
+  if (is_null($result->fetch_assoc())) {
+    $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (words_id, site_id) VALUES (?,?)");
+    $insert_stmt->bind_param('ii', $word_id, $site_id);
+    $insert_stmt->execute();
+    $mysqli->close();
+  } else {
+    $mysqli->close();
+  }
+  return;
+}
+
+function startCrawler($uri, $rekursiv)
+{
+  insertLink($uri);
 
 
-    $crawl = new Crawler($uri);
-      //get word from site
-      $plaintext = "";
-      foreach ($crawl->get("texts") as $text) {
-        //ignore empty results
-        if ($text) {
-          $plaintext = $plaintext . " " . $text;
-        }
-      }
-      $words = preg_split('/ /', $plaintext);
-      foreach ($words as $word) {
-        inserWord($word);
-        connectWordSite($word, $crawl->base);
-      }
-
-
-    foreach ($crawl->get("links") as $link) {
-
-
-      //resolve relative links to absolute
-      if(substr( $link, 0, 4 ) !== "http") {
-        $link = $crawl->base . $link;
-      }
-
-      insertLink($link);
-
-      //start crawler recursivly
-      #startCrawler($link);
+  $crawl = new Crawler($uri);
+  //get word from site
+  $plaintext = "";
+  foreach ($crawl->get("texts") as $text) {
+    //ignore empty results
+    if ($text) {
+      $plaintext = $plaintext . " " . $text;
     }
   }
+  $words = preg_split('/ /', $plaintext);
+  foreach ($words as $word) {
+    inserWord($word);
+    connectWordSite($word, $crawl->base);
+  }
 
-  ?>
-</body>
 
-</html>
+  foreach ($crawl->get("links") as $link) {
+
+    //resolve relative links to absolute
+    if (substr($link, 0, 4) !== "http") {
+      $link = $crawl->base . $link;
+    }
+
+    insertLink($link);
+
+    //start crawler recursivly
+    if ($rekursiv) {
+      startCrawler($link, true);
+    }
+  }
+}
+
+?>
