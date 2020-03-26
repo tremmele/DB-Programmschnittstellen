@@ -47,7 +47,6 @@ class Crawler
       //remove java script tags
       $html = preg_replace('/<script>(.*?)<\/script>/m', "", $this->markup);
       preg_match_all('/>(.*?)</m', $html, $texts);
-
       return !empty($texts[1]) ? $texts[1] : FALSE;
     }
   }
@@ -60,6 +59,7 @@ class Crawler
   <?php
 
   $url = 'http://www.heidenheim.dhbw.de';
+  startCrawler($url);
 
   function insertLink($link)
   {
@@ -133,13 +133,10 @@ class Crawler
     
     $site_id =$siteid->fetch_assoc()['id'];
     $word_id =$wordid->fetch_assoc()['id'];
-    echo $link . $site_id;
-    echo "\n";
-    echo $word . $word_id;
-    echo "\n";
 
-    $result = $mysqli->query("SELECT * FROM words_sites WHERE word_id = $word_id AND site_id = $site_id");
-    if (is_null($result)) {
+    $result = $mysqli->query("SELECT * FROM words_sites WHERE word_id = \"(int) $word_id\" AND site_id = \"(int) $site_id\"");
+
+    if (is_null($result->fetch_assoc())) {
       $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (word_id, site_id) VALUES (?,?)");
       $insert_stmt->bind_param('ii', $word_id, $site_id);
       $insert_stmt->execute();
@@ -150,13 +147,9 @@ class Crawler
     }
   }
 
-  insertLink($url);
-  startCrawler($url);
-
-
-
   function startCrawler($uri)
   {
+    insertLink($uri);
 
 
     $crawl = new Crawler($uri);
