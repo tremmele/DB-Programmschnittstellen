@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel = "stylesheet" type = "text/css" href = "style.css" />
         <title>Suchmaschine</title>
     </head>
     <body>
@@ -25,7 +26,7 @@
             // Add URL
             addUrl($_POST['url']);
         }
-        echo "<hr>";
+        echo "<br><br><hr>";
 
         // Search Form
         echo "<h2>Suche</h2>";
@@ -38,7 +39,7 @@
         // Print search results
         if(isset($_POST['searchQuery']))
         {
-            echo "<h3>Suchanfrage: " . $_POST['searchQuery'] . "</h3>";
+            echo "<br><h3>Suchanfrage: " . $_POST['searchQuery'] . "</h3>";
             search($_POST['searchQuery']);
         }
     ?>
