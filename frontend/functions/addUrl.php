@@ -32,6 +32,9 @@
             $insert_stmt->bind_param('ss', $url, $timestamp);
             $insert_stmt->execute();
             echo "Die URL " . $url . " wurde hinzugefügt";
+
+            // close db 
+            $mysqli->close();
             
             // start crawler
 
