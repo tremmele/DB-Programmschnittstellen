@@ -63,8 +63,13 @@
             }
 
         }
+
+        // close db 
+        $mysqli->close();
+
         // sort results
         rsort($hitlist);
+        
         // print results
         echo "<hr>";
         echo "<h2>Suchergebnisse</h2>";

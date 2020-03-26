@@ -37,6 +37,8 @@
       $update_stmt = $mysqli->prepare("UPDATE site SET time_stamp = ? WHERE id = ?");
       $update_stmt->bind_param('si', $timestamp, $row['id']);
       $update_stmt->execute();
+      // close db 
+      $mysqli->close();
     }
 
   //}
