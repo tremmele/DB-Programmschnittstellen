@@ -68,10 +68,13 @@
         // print results
         echo "<hr>";
         echo "<h2>Suchergebnisse</h2>";
+        echo "<ul>";
         foreach ($hitlist as $hit)
         {
-            echo "<a href=" . $hit->url . ">" . $hit->url . "</a>" . "&emsp;Anzahl übereinstimmender Wörter:" . $hit->count . "<br>"; 
+            echo "<li>Seite gefunden. Es sind " . $hit->count . " Wörter der Suchanfrage enthalten. <br>";
+            echo "Link: <a href=" . $hit->url . ">" . $hit->url . "</a></li><br>"; 
         }
+        echo "</ul>";
     }
 
 ?>
