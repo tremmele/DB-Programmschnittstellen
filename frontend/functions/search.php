@@ -65,10 +65,10 @@
         }
         // print results
         echo "<hr>";
-        echo "<h2>Suchergebnisse:</h2>";
+        echo "<h2>Suchergebnisse</h2>";
         foreach ($hitlist as $hit)
         {
-            echo "<a href=http://" . $hit->url . ">" . $hit->url . "</a>" . "&emsp;Anzahl übereinstimmender Wörter:" . $hit->count . "<br>"; 
+            echo "<a href=" . $hit->url . ">" . $hit->url . "</a>" . "&emsp;Anzahl übereinstimmender Wörter:" . $hit->count . "<br>"; 
         }
     }
 
