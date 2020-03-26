@@ -57,6 +57,10 @@ $dbUser = "root";
 $dbPassword = "";
 $dbName = "mydb";
 
+if(substr( $link, 0, 4 ) !== "http") {
+  $link = $crawl->base . $link;
+}
+
 
   // Connect to DB
   $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
@@ -75,7 +79,7 @@ $dbName = "mydb";
   $insert_stmt->execute();
   $mysqli->close();
 
-  startCrawler($link);
+  #startCrawler($link);
   }
   else {
   $mysqli->close();
