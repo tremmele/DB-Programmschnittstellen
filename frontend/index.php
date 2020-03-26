@@ -18,14 +18,14 @@
             echo "<input type=\"text\" id=\"url\" name=\"url\"><br><br>";
             echo "<input type=\"submit\" value=\"hinzufügen\">";
         echo "</form>";
-        echo "<hr>";
+
         // Add URL to DB
         if(isset($_POST['url']))
         {
             // Add URL
             addUrl($_POST['url']);
-            echo "Die URL " . $_POST['url'] . " wurde hinzugefügt";
         }
+        echo "<hr>";
 
         // Search Form
         echo "<h2>Suche</h2>";
@@ -38,7 +38,7 @@
         // Print search results
         if(isset($_POST['searchQuery']))
         {
-            echo "<h3>Suchanfrage: " . $_POST['searchQuery'] . "</h3><br><br>";
+            echo "<h3>Suchanfrage: " . $_POST['searchQuery'] . "</h3>";
             search($_POST['searchQuery']);
         }
     ?>
