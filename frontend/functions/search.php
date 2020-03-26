@@ -67,9 +67,9 @@
         // close db 
         $mysqli->close();
 
-        // sort results
-        rsort($hitlist);
-        
+        // sort results descending 
+        usort($hitlist, 'compareHits');
+
         // print results
         echo "<hr>";
         echo "<h2>Suchergebnisse</h2>";
@@ -81,5 +81,14 @@
         }
         echo "</ul>";
     }
-
+    
+    // Comparefunction for usort
+    function compareHits($a, $b)
+    {
+        if ($a->count == $b->count)
+        {
+            return 0;
+        }
+        return ($a->count < $b->count) ? 1 : -1;
+    }
 ?>
