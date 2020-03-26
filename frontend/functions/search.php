@@ -35,6 +35,7 @@
             
             while ($row = $result->fetch_assoc()) 
             {
+                // Create first hit
                 if (count($hitlist) == 0)
                 {
                     $hitlist[] = new hit($row['link'], 1);
@@ -45,6 +46,7 @@
                     $hitExists = false;
                     foreach ($hitlist as $hit)
                     {
+                        // increment word count if hit already exists
                         if($hit->url == $row['link'])
                         {
                             $hitExists = true;
@@ -52,20 +54,20 @@
                             $hit->count ++;
                         }
                     }
+                    // create new hit if hit not exists
                     if (!$hitExists)
                     {
-                         // create new hit
                          $hitlist[] = new hit($row['link'], 1);
                     }
                 }
             }
 
         }
+        // print results
+        echo "<hr>";
+        echo "<h2>Suchergebnisse:</h2>";
         foreach ($hitlist as $hit)
         {
-            // sort hits 
-
-            // print results
             echo "<a href=http://" . $hit->url . ">" . $hit->url . "</a>" . "&emsp;Anzahl übereinstimmender Wörter:" . $hit->count . "<br>"; 
         }
     }

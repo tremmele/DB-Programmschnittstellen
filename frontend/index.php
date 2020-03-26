@@ -36,8 +36,6 @@
         echo "</form>";
         
         // Print search results
-        echo "<hr>";
-        echo "<h2>Suchergebnisse:</h2>";
         if(isset($_POST['searchQuery']))
         {
             echo "<h3>Suchanfrage: " . $_POST['searchQuery'] . "</h3><br><br>";
