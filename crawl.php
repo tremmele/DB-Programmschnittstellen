@@ -134,7 +134,7 @@ class Crawler
     $site_id =$siteid->fetch_assoc()['id'];
     $word_id =$wordid->fetch_assoc()['id'];
 
-    $result = $mysqli->query("SELECT * FROM words_sites WHERE word_id = \"(int) $word_id\" AND site_id = \"(int) $site_id\"");
+    $result = $mysqli->query("SELECT * FROM words_sites WHERE words_id = $word_id AND site_id = $site_id");
 
     if (is_null($result->fetch_assoc())) {
       $insert_stmt = $mysqli->prepare("INSERT INTO words_sites (word_id, site_id) VALUES (?,?)");
