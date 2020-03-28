@@ -7,7 +7,7 @@
         // check if input variable is a valid URL
         if(!filter_var($url, FILTER_VALIDATE_URL))
         {
-            echo "Ungültige Eingabe";
+            echo "<br><h3>Ungültige Eingabe</h3>";
             return;
         } 
         
@@ -34,7 +34,7 @@
             $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?, ?)");
             $insert_stmt->bind_param('ss', $url, $timestamp);
             $insert_stmt->execute();
-            echo "<br></h3>Die URL " . $url . " wurde hinzugefügt</h3>";
+            echo "<br><h3>Die URL " . $url . " wurde hinzugefügt</h3>";
 
             // close db 
             $mysqli->close();
