@@ -104,7 +104,12 @@ function inserWord($word)
 
   //Check if word is already in DB
   $result = $mysqli->query("SELECT * FROM words WHERE word = \"$word\"");
-  
+
+  // check if sql was not vaild
+  if (!$result) {
+    return;
+  }
+
   //insert word to db if new word
   if (is_null($result->fetch_assoc())) {
     $insert_stmt = $mysqli->prepare("INSERT INTO words (word) VALUES (?)");
@@ -158,7 +163,7 @@ function startCrawler($uri, $rekursiv)
 {
   insertLink($uri);
   $crawl = new Crawler($uri);
-  
+
   //get text from site
   $plaintext = "";
   foreach ($crawl->get("texts") as $text) {
