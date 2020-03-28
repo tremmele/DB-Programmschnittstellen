@@ -23,10 +23,11 @@ The Database contains three tables site, word and sites_words:
 The worker runs in the backround within a loop. It will start the crawler foreach link in the database whose timestamp is older than 24 h.
 
 ### frontend/index.php
-The main site witch calls the needed function.
+The main site witch calls the needed functions and print the input forms.
 
 ### frontend/functions/addUrl.php
+Checks if the input URL is valid and not exitsting in the database. After that it calls the crawler without recursion.
 
 ### fronted/functions/search.php
-
+This function executes the search Requests against the database. The results are ranked on the number of matching words from the search request.
 
