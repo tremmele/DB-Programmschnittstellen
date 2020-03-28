@@ -75,6 +75,11 @@ function insertLink($link)
   //check if link is already in DB
   $result = $mysqli->query("SELECT * FROM site WHERE link = \"$link\"");
 
+  // check if sql was not vaild
+  if (!$result) {
+    return;
+  }
+
   //insert link to DB if new word
   if (is_null($result->fetch_assoc())) {
     $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?,?)");
@@ -145,6 +150,11 @@ function connectWordSite($word, $link)
 
   //check if relation is already in table
   $result = $mysqli->query("SELECT * FROM words_sites WHERE words_id = $word_id AND site_id = $site_id");
+
+  // check if sql was not vaild
+  if (!$result) {
+    return;
+  }
 
   //insert relation if not exists
   if (is_null($result->fetch_assoc())) {
