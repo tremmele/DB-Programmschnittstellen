@@ -77,6 +77,7 @@ function insertLink($link)
 
   // check if sql was not vaild
   if (!$result) {
+    $mysqli->close();
     return;
   }
 
@@ -112,6 +113,7 @@ function inserWord($word)
 
   // check if sql was not vaild
   if (!$result) {
+    $mysqli->close();
     return;
   }
 
@@ -148,6 +150,7 @@ function connectWordSite($word, $link)
   
   // check if sql was not vaild
   if (!$siteid || !$wordid) {
+    $mysqli->close();
     return;
   }
 
@@ -160,6 +163,7 @@ function connectWordSite($word, $link)
 
   // check if sql was not vaild
   if (!$result) {
+    $mysqli->close();
     return;
   }
 
