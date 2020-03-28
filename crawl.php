@@ -145,6 +145,13 @@ function connectWordSite($word, $link)
   //get word and sideid
   $siteid = $mysqli->query("SELECT id FROM site WHERE link = \"$link\"");
   $wordid = $mysqli->query("SELECT id FROM words WHERE word = \"$word\"");
+  
+  // check if sql was not vaild
+  if (!$siteid && !$wordid) {
+    return;
+  }
+
+  //convert sql object to string
   $site_id = $siteid->fetch_assoc()['id'];
   $word_id = $wordid->fetch_assoc()['id'];
 
