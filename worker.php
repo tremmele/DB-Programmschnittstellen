@@ -5,10 +5,10 @@
   $dbUser = "root";
   $dbPassword = "";
   $dbName = "mydb";
-  $crawlInterval = 1000;//86400;
+  $crawlInterval = 86400;
 
-  //while(true)
-  //{
+  while(true)
+  {
     // Connect to DB
     $mysqli = new mysqli($dbUrl, $dbUser, $dbPassword, $dbName);
     if ($mysqli->connect_errno)
@@ -18,6 +18,7 @@
 
     // Get URLs From DB
     $result = $mysqli->query("SELECT * FROM site");
+
     while ($row = $result->fetch_assoc()) 
     {
       // Check last crawl  
@@ -25,7 +26,6 @@
       $lastCheck = strtotime($row['time_stamp']);
       if ($time - $lastCheck <= $crawlInterval)
       {
-        echo $time - $lastCheck . "\n";
         continue;
       }
 
@@ -43,6 +43,6 @@
       $mysqli->close();
     }
 
-  //}
+  }
 
 ?>
