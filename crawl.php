@@ -147,7 +147,7 @@ function connectWordSite($word, $link)
   $wordid = $mysqli->query("SELECT id FROM words WHERE word = \"$word\"");
   
   // check if sql was not vaild
-  if (!$siteid && !$wordid) {
+  if (!$siteid || !$wordid) {
     return;
   }
 
