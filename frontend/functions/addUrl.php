@@ -1,6 +1,9 @@
 <?php
     function addUrl($url)
     {
+        // include crawler
+        include "crawl.php";
+
         // check if input variable is a valid URL
         if(!filter_var($url, FILTER_VALIDATE_URL))
         {
@@ -22,7 +25,7 @@
         $result = $mysqli->query("SELECT * FROM site WHERE link = \"$url\"");
         if ($result->num_rows != 0)
         {
-            echo "Die Seite " . $url . " ist schon bekannt"; 
+            echo "<br><h3>Die Seite " . $url . " ist schon bekannt<br>"; 
         } 
         else 
         {
@@ -31,13 +34,13 @@
             $insert_stmt = $mysqli->prepare("INSERT INTO site (link, time_stamp) VALUES (?, ?)");
             $insert_stmt->bind_param('ss', $url, $timestamp);
             $insert_stmt->execute();
-            echo "Die URL " . $url . " wurde hinzugefügt";
+            echo "<br></h3>Die URL " . $url . " wurde hinzugefügt</h3>";
 
             // close db 
             $mysqli->close();
-            
-            // start crawler
 
+            // start crawler without recursion
+            startCrawler($url, false);
         }
     }
 ?>
